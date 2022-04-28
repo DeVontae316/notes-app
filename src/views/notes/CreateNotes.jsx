@@ -106,10 +106,15 @@ export const CreateNotes = () => {
         )}
       </Modal>
 
-      <View style={styles.goalsContainer}>
-        <AppButton btnStyle={styles.appButton} onPress={handleCreateNote}>
+      <View styles={styles.addNoteBtnContainer}>
+        <AppButton
+          btnStyle={[styles.appButton, styles.addNoteButton]}
+          onPress={handleCreateNote}
+        >
           <AppText textStyle={styles.textStyle} text="Add note" />
         </AppButton>
+      </View>
+      <View style={styles.goalsContainer}>
         <List
           listTextStyle={styles.listTextStyle}
           listItemStyle={styles.listItemStyle}
@@ -132,13 +137,17 @@ const styles = StyleSheet.create({
     borderColor: "white",
     backgroundColor: "dodgerblue",
     width: 200,
-    height: 35,
+    height: 55,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 6,
     marginBottom: 4,
   },
-
+  addNoteButton: {
+    backgroundColor: "purple",
+    width: "100%",
+    height: 55,
+  },
   appContainer: {
     flex: 1,
     paddingTop: 50,
@@ -146,6 +155,9 @@ const styles = StyleSheet.create({
     borderBottomColor: "#cccccc",
     borderStyle: "solid",
     borderColor: "blue",
+  },
+  addNoteBtnContainer: {
+    marginLeft: 20,
   },
   errorTextStyle: { color: "red" },
   goalsContainer: {
@@ -190,6 +202,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: "white",
-    fontSize: 10,
+    fontSize: 20,
   },
 });
