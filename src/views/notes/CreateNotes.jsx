@@ -33,7 +33,6 @@ export const CreateNotes = () => {
   const handlePostNotes = () => {
     console.log("post note");
     dispatch(postNotes(userNote));
-    setIsShowAllNotes(true);
   };
   const handleClick = () => {
     console.log("handle click hit");
@@ -63,11 +62,7 @@ export const CreateNotes = () => {
   const onChangeText = (e) => {
     setUserInput(e);
   };
-  useEffect(() => {
-    setInterval(() => {
-      isShowAllNotes && navigation.navigate("ViewAllNotes");
-    }, 1000);
-  }, [isShowAllNotes]);
+
   return (
     <SafeAreaView style={styles.appContainer}>
       <Modal visible={isModalVisible}>

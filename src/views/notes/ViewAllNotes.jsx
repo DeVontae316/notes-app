@@ -19,10 +19,16 @@ export const ViewAllNotes = () => {
     navigation.navigate("CreateNotes");
   };
   console.log("notes", notes);
+  //dispatch on first render
+  useEffect(() => {
+    dispatch(getNotes());
+  }, [dispatch]);
+
+  //dispatch on refresh
   useEffect(() => {
     isShowNotes && dispatch(getNotes());
     setIsShowNotes(false);
-  }, [dispatch, isShowNotes]);
+  }, [isShowNotes]);
   return (
     <>
       <AppText textStyle={styles.textStyle} text="Refresh to see updates" />
