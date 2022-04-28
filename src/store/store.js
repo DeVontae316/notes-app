@@ -1,6 +1,6 @@
 import createSagaMiddleware from "@redux-saga/core";
 import { configureStore } from "@reduxjs/toolkit";
-import notesReducer from "./reducers/notesReducer/noteState";
+import notesReducer from "./reducers/notesReducer/notesState";
 import watchNotesSaga from "./sagas/notesSaga";
 
 const saga = createSagaMiddleware();
