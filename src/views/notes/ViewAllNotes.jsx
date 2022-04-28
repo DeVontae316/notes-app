@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotes } from "../../store/reducers/notesReducer/notesState";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { List } from "../../components/List";
@@ -32,7 +32,6 @@ export const ViewAllNotes = () => {
   }, [isShowNotes]);
   return (
     <>
-      <AppText textStyle={styles.textStyle} text="Refresh to see updates" />
       <View style={styles.btnContainer}>
         <AppButton onPress={handleNavigation} btnStyle={styles.btnStyle}>
           <AppText textStyle={styles.textStyle} text="Add note" />

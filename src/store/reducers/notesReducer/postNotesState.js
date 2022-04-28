@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const postNotesState = createSlice({
   name: "postNotes",
   initialState: {
-    userNotes: {},
+    userNote: {},
     isIdle: true,
     isLoading: false,
     isError: false,
@@ -14,8 +14,9 @@ export const postNotesState = createSlice({
       state.isLoading = true;
       state.isIdle = false;
       state.userNote = action.payload;
+      state.isSuccess = false;
     },
-    postNotesSuccess: (state, action) => {
+    postNotesSuccess: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
     },

@@ -11,7 +11,11 @@ export const StackNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="ViewAllNotes">
         <Stack.Screen name="ViewAllNotes" component={ViewAllNotes} />
-        <Stack.Screen name="CreateNotes" component={CreateNotes} />
+        <Stack.Screen
+          options={{ title: "View All Notes" }}
+          name="CreateNotes"
+          component={CreateNotes}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

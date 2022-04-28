@@ -16,7 +16,8 @@ function* postNotes() {
   };
   const req = yield call(() => fetch(url, data));
   const res = yield req.json();
-  yield put(postNotesSuccess(res));
+  yield put(postNotesSuccess());
+
   console.log("res", res);
 }
 

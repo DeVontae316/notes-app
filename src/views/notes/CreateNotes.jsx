@@ -9,18 +9,18 @@ import AppText from "../../components/common/typography/AppText";
 import { ErrorMessageText } from "../../components/ErrorMessageText";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { List } from "../../components/List";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postNotes } from "../../store/reducers/notesReducer/postNotesState";
-import { useNavigation } from "@react-navigation/native";
 
 export const CreateNotes = () => {
   const [userNote, setUserNote] = useState({});
   const [userInput, setUserInput] = useState("");
   const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(true);
+  const [isShowMessage, setIsShowMessage] = useState(false);
 
   const dispatch = useDispatch();
-  const navigation = useNavigation();
+  const status = useSelector((state) => state.post.isSuccess);
 
   const isUserInputAnEmptyString = userInput === "";
 
@@ -32,11 +32,9 @@ export const CreateNotes = () => {
   const handlePostNotes = () => {
     console.log("post note");
     dispatch(postNotes(userNote));
-
-    setInterval(() => {
-      navigation.navigate("ViewAllNotes");
-    }, 1000);
+    setIsShowMessage(true);
   };
+
   const handleClick = () => {
     console.log("handle click hit");
     setErrorMessage();
@@ -64,6 +62,7 @@ export const CreateNotes = () => {
   };
   const onChangeText = (e) => {
     setUserInput(e);
+    setIsShowMessage(false);
   };
 
   return (
@@ -113,6 +112,15 @@ export const CreateNotes = () => {
           listItemStyle={styles.listItemStyle}
           data={[userNote]}
         />
+        {status && isShowMessage && (
+          <>
+            <AppText textStyle={styles.successStyle} text="Success" />
+            <AppText
+              textStyle={styles.successStyle}
+              text="Click back button to see updated notes"
+            />
+          </>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -152,8 +160,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   errorTextStyle: { color: "red" },
-  goalsContainer: {
-    flex: 2,
+  noteContainer: {
     borderStyle: "solid",
     borderColor: "green",
     borderWidth: 1,
@@ -192,6 +199,9 @@ const styles = StyleSheet.create({
     borderColor: "#cccccc",
     marginRight: 8,
     padding: 8,
+  },
+  successStyle: {
+    color: "green",
   },
   textStyle: {
     color: "white",
