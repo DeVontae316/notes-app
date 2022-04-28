@@ -4,9 +4,18 @@ import { FlatList } from "react-native";
 import { ListItem } from "./ListItem";
 
 export const List = (props) => {
-  const { data, deleteItem, listItemStyle, listTextStyle } = props;
+  const {
+    data,
+    deleteItem,
+    listItemStyle,
+    listTextStyle,
+    onRefresh,
+    refreshing,
+  } = props;
   return (
     <FlatList
+      refreshing={refreshing}
+      onRefresh={onRefresh}
       data={data}
       keyExtractor={(item) => item?.id?.toString()}
       renderItem={({ item }) => (

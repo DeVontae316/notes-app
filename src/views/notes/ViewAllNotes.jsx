@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotes } from "../../store/reducers/notesReducer/notesState";
 import { StyleSheet, View } from "react-native";
@@ -11,25 +10,34 @@ import AppText from "../../components/common/typography/AppText";
 
 export const ViewAllNotes = () => {
   const notes = useSelector((state) => state.notes.notes);
+  const [isShowNotes, setIsShowNotes] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const handleNavigation = () => {
+    console.log("navigation hit");
     navigation.navigate("CreateNotes");
   };
   console.log("notes", notes);
   useEffect(() => {
-    dispatch(getNotes());
-  }, [dispatch]);
+    isShowNotes && dispatch(getNotes());
+    setIsShowNotes(false);
+  }, [dispatch, isShowNotes]);
   return (
     <>
+      <AppText textStyle={styles.textStyle} text="Refresh to see updates" />
       <View style={styles.btnContainer}>
         <AppButton onPress={handleNavigation} btnStyle={styles.btnStyle}>
           <AppText textStyle={styles.textStyle} text="Add notes" />
         </AppButton>
       </View>
+      <View style={styles.instructionsContainer}>
+        <AppText text="Refresh to see updates" />
+      </View>
       <View style={styles.listContainer}>
         <List
+          refreshing={isShowNotes}
+          onRefresh={() => setIsShowNotes(true)}
           data={notes}
           listTextStyle={styles.listTextStyle}
           listItemStyle={styles.listItemStyle}
@@ -52,6 +60,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: "50%",
     height: 30,
+  },
+  instructionsContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   itemStyle: { width: "50%" },
   listContainer: {
