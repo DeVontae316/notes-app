@@ -4,15 +4,17 @@ export const postNotesState = createSlice({
   name: "postNotes",
   initialState: {
     notes: [],
+    userNotes: {},
     isIdle: true,
     isLoading: false,
     isError: false,
     isSuccess: false,
   },
   reducers: {
-    postNotes: (state) => {
+    postNotes: (state, action) => {
       state.isLoading = true;
       state.isIdle = false;
+      state.userNote = action.payload;
     },
     postNotesSuccess: (state, action) => {
       state.notes = action.payload;

@@ -9,12 +9,16 @@ import AppText from "../../components/common/typography/AppText";
 import { ErrorMessageText } from "../../components/ErrorMessageText";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { List } from "../../components/List";
+import { useDispatch } from "react-redux";
+import { postNotes } from "../../store/reducers/notesReducer/postNotesState";
+import { userNotes } from "../../store/sagas/selectors";
 
 export const CreateNotes = () => {
-  const [userGoals, setUserGoals] = useState([]);
+  const [userNote, setUserNote] = useState({});
   const [userInput, setUserInput] = useState("");
   const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(true);
+  const dispatch = useDispatch();
 
   const isUserInputAnEmptyString = userInput === "";
 
@@ -23,13 +27,14 @@ export const CreateNotes = () => {
     value: userInput,
   };
 
-  const handlePostNote = () => {
+  const handlePostNotes = () => {
     console.log("post note");
+    dispatch(postNotes(userNote));
   };
   const handleClick = () => {
     console.log("handle click hit");
     setErrorMessage();
-    collectUserGoals();
+    collectUserNote();
     resetUserInput();
     setIsModalVisible(false);
   };
@@ -42,13 +47,10 @@ export const CreateNotes = () => {
     return setIsShowErrorMessage(isUserInputAnEmptyString || false);
   };
 
-  const collectUserGoals = () => {
+  const collectUserNote = () => {
     let id = uuidv4();
     if (isUserInputAnEmptyString) return;
-    return setUserGoals((initialGoals) => [
-      ...initialGoals,
-      { id: id, note: userInput },
-    ]);
+    return setUserNote({ id: id, note: userInput });
   };
 
   const resetUserInput = () => {
@@ -58,20 +60,13 @@ export const CreateNotes = () => {
     setUserInput(e);
   };
 
-  const deleteItem = (id) => {
-    const updatedGoals = userGoals?.filter((goal) => goal.id !== id);
-    setUserGoals([...updatedGoals]);
-
-    console.log("updated goals arr", updatedGoals);
-  };
-
   console.log("show err message...?", isShowErrorMessage);
   console.log("user input", userInput);
+  console.log("user notes...", userNotes);
   //Only show me console.log when userGoals changes
   useEffect(() => {
-    console.table(userGoals);
-    console.log("length", userGoals?.length);
-  }, [userGoals]);
+    console.log("userGoals", userNote);
+  }, [userNote]);
 
   useEffect(() => {
     /* console.log("all goals", fetchAllGoals()); */
@@ -82,7 +77,7 @@ export const CreateNotes = () => {
         <View style={styles.inputContainer}>
           <TextField
             onChangeText={onChangeText}
-            placeholder="Enter notes"
+            placeholder="Enter note"
             textStyle={styles.textFieldStyle}
             configOptions={configOptions}
           />
@@ -90,9 +85,6 @@ export const CreateNotes = () => {
           <View>
             <AppButton btnStyle={styles.appButton} onPress={handleClick}>
               <AppText textStyle={styles.textStyle} text="Create Note" />
-            </AppButton>
-            <AppButton btnStyle={styles.appButton} onPress={handlePostNote}>
-              <AppText textStyle={styles.textStyle} text="Save notes" />
             </AppButton>
           </View>
         </View>
@@ -113,13 +105,18 @@ export const CreateNotes = () => {
         >
           <AppText textStyle={styles.textStyle} text="Add note" />
         </AppButton>
+        <AppButton
+          btnStyle={[styles.appButton, styles.addNoteButton]}
+          onPress={handlePostNotes}
+        >
+          <AppText textStyle={styles.textStyle} text="Save notes" />
+        </AppButton>
       </View>
       <View style={styles.goalsContainer}>
         <List
           listTextStyle={styles.listTextStyle}
           listItemStyle={styles.listItemStyle}
-          deleteItem={deleteItem}
-          data={userGoals}
+          data={[userNote]}
         />
       </View>
     </SafeAreaView>
@@ -184,13 +181,14 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     borderStyle: "solid",
-    height: 30,
+    height: 40,
     backgroundColor: "dodgerblue",
     marginTop: 10,
     borderRadius: 6,
   },
   listTextStyle: {
     color: "white",
+    marginTop: 8,
   },
   textFieldStyle: {
     textAlign: "center",
