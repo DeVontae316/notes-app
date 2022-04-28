@@ -21,7 +21,11 @@ export const CreateNotes = () => {
     value: userInput,
   };
 
+  const handlePostNote = () => {
+    console.log("post note");
+  };
   const handleClick = () => {
+    console.log("handle click hit");
     setErrorMessage();
     collectUserGoals();
     resetUserInput();
@@ -36,7 +40,7 @@ export const CreateNotes = () => {
     if (isUserInputAnEmptyString) return;
     return setUserGoals((initialGoals) => [
       ...initialGoals,
-      { id: id, goal: userInput },
+      { id: id, note: userInput },
     ]);
   };
 
@@ -54,7 +58,7 @@ export const CreateNotes = () => {
     console.log("updated goals arr", updatedGoals);
   };
 
-  console.log("show err message?", isShowErrorMessage);
+  console.log("show err message...?", isShowErrorMessage);
   console.log("user input", userInput);
   //Only show me console.log when userGoals changes
   useEffect(() => {
@@ -67,6 +71,14 @@ export const CreateNotes = () => {
   }, []);
   return (
     <SafeAreaView style={styles.appContainer}>
+      {isShowErrorMessage && (
+        <ErrorMessage>
+          <ErrorMessageText
+            errorMessage={"Error: Must enter a note before submitting"}
+            errorTextStyle={styles.errorTextStyle}
+          />
+        </ErrorMessage>
+      )}
       <View style={styles.inputContainer}>
         <TextField
           onChangeText={onChangeText}
@@ -79,20 +91,19 @@ export const CreateNotes = () => {
           <AppButton btnStyle={styles.appButton} onPress={handleClick}>
             <AppText textStyle={styles.textStyle} text="Create Note" />
           </AppButton>
-          <AppButton btnStyle={styles.appButton} onPress={handleClick}>
+          <AppButton btnStyle={styles.appButton} onPress={handlePostNote}>
             <AppText textStyle={styles.textStyle} text="Save notes" />
           </AppButton>
         </View>
       </View>
 
       <View style={styles.goalsContainer}>
-        {isShowErrorMessage && (
-          <ErrorMessage>
-            <ErrorMessageIcon showStopSignIcon size="10" color="red" />
-            <ErrorMessageText errorMessage={"Error"} />
-          </ErrorMessage>
-        )}
-        <List deleteItem={deleteItem} data={userGoals} />
+        <List
+          listTextStyle={styles.listTextStyle}
+          listItemStyle={styles.listItemStyle}
+          deleteItem={deleteItem}
+          data={userGoals}
+        />
       </View>
     </SafeAreaView>
   );
@@ -113,6 +124,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 6,
+    marginBottom: 4,
   },
 
   appContainer: {
@@ -123,6 +135,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "blue",
   },
+  errorTextStyle: { color: "red" },
   goalsContainer: {
     flex: 2,
     borderStyle: "solid",
@@ -144,6 +157,18 @@ const styles = StyleSheet.create({
     borderColor: "pink",
     borderWidth: 1,
     height: 500,
+  },
+  listItemStyle: {
+    display: "flex",
+    alignItems: "center",
+    borderStyle: "solid",
+    height: 30,
+    backgroundColor: "dodgerblue",
+    marginTop: 10,
+    borderRadius: 6,
+  },
+  listTextStyle: {
+    color: "white",
   },
   textFieldStyle: {
     textAlign: "center",
