@@ -60,17 +60,6 @@ export const CreateNotes = () => {
     setUserInput(e);
   };
 
-  console.log("show err message...?", isShowErrorMessage);
-  console.log("user input", userInput);
-  console.log("user notes...", userNotes);
-  //Only show me console.log when userGoals changes
-  useEffect(() => {
-    console.log("userGoals", userNote);
-  }, [userNote]);
-
-  useEffect(() => {
-    /* console.log("all goals", fetchAllGoals()); */
-  }, []);
   return (
     <SafeAreaView style={styles.appContainer}>
       <Modal visible={isModalVisible}>

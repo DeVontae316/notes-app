@@ -19,7 +19,6 @@ export const ViewAllNotes = () => {
   };
   console.log("notes", notes);
   useEffect(() => {
-    console.log("useeffect hit");
     dispatch(getNotes());
   }, [dispatch]);
   return (
