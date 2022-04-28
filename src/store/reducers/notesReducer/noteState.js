@@ -25,3 +25,6 @@ export const notesState = createSlice({
     },
   },
 });
+
+export const { getNotes, getNotesSuccess, getNotesError } = notesState.actions;
+export default notesState.reducer;
