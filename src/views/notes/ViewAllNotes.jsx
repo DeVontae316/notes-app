@@ -19,6 +19,7 @@ export const ViewAllNotes = () => {
     navigation.navigate("CreateNotes");
   };
   console.log("notes", notes);
+
   //dispatch on first render
   useEffect(() => {
     dispatch(getNotes());
