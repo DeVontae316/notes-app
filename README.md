@@ -7,7 +7,7 @@ https://docs.expo.dev/get-started/installation/
 
 After cloning the project run npm i
 
-To run run project:
+To run the project:
 expo start
 
 I created the following scripts to create a "local api" for the RN project to use:
