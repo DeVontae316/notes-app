@@ -1,6 +1,6 @@
 import "react-native-get-random-values";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView } from "react-native";
+import { StyleSheet, View, SafeAreaView, Modal } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 
 import { TextField } from "../../components/common/form/TextField";
@@ -14,6 +14,8 @@ export const CreateNotes = () => {
   const [userGoals, setUserGoals] = useState([]);
   const [userInput, setUserInput] = useState("");
   const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(true);
+
   const isUserInputAnEmptyString = userInput === "";
 
   const configOptions = {
@@ -29,6 +31,11 @@ export const CreateNotes = () => {
     setErrorMessage();
     collectUserGoals();
     resetUserInput();
+    setIsModalVisible(false);
+  };
+
+  const handleCreateNote = () => {
+    setIsModalVisible(true);
   };
 
   const setErrorMessage = () => {
@@ -71,33 +78,38 @@ export const CreateNotes = () => {
   }, []);
   return (
     <SafeAreaView style={styles.appContainer}>
-      {isShowErrorMessage && (
-        <ErrorMessage>
-          <ErrorMessageText
-            errorMessage={"Error: Must enter a note before submitting"}
-            errorTextStyle={styles.errorTextStyle}
+      <Modal visible={isModalVisible}>
+        <View style={styles.inputContainer}>
+          <TextField
+            onChangeText={onChangeText}
+            placeholder="Enter notes"
+            textStyle={styles.textFieldStyle}
+            configOptions={configOptions}
           />
-        </ErrorMessage>
-      )}
-      <View style={styles.inputContainer}>
-        <TextField
-          onChangeText={onChangeText}
-          placeholder="Enter notes"
-          textStyle={styles.textFieldStyle}
-          configOptions={configOptions}
-        />
 
-        <View>
-          <AppButton btnStyle={styles.appButton} onPress={handleClick}>
-            <AppText textStyle={styles.textStyle} text="Create Note" />
-          </AppButton>
-          <AppButton btnStyle={styles.appButton} onPress={handlePostNote}>
-            <AppText textStyle={styles.textStyle} text="Save notes" />
-          </AppButton>
+          <View>
+            <AppButton btnStyle={styles.appButton} onPress={handleClick}>
+              <AppText textStyle={styles.textStyle} text="Create Note" />
+            </AppButton>
+            <AppButton btnStyle={styles.appButton} onPress={handlePostNote}>
+              <AppText textStyle={styles.textStyle} text="Save notes" />
+            </AppButton>
+          </View>
         </View>
-      </View>
+        {isShowErrorMessage && (
+          <ErrorMessage>
+            <ErrorMessageText
+              errorMessage={"Error: Must enter a note before submitting"}
+              errorTextStyle={styles.errorTextStyle}
+            />
+          </ErrorMessage>
+        )}
+      </Modal>
 
       <View style={styles.goalsContainer}>
+        <AppButton btnStyle={styles.appButton} onPress={handleCreateNote}>
+          <AppText textStyle={styles.textStyle} text="Add note" />
+        </AppButton>
         <List
           listTextStyle={styles.listTextStyle}
           listItemStyle={styles.listItemStyle}
@@ -146,17 +158,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputContainer: {
-    flex: 0.5,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginTop: 100,
     borderBottomWidth: 4,
     borderBottomColor: "purple",
     borderStyle: "solid",
     borderColor: "pink",
     borderWidth: 1,
-    height: 500,
   },
   listItemStyle: {
     display: "flex",
@@ -179,8 +189,6 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   textStyle: {
-    /* textAlign: "center", */
-    /* marginTop: 8, */
     color: "white",
     fontSize: 10,
   },
