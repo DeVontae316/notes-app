@@ -34,7 +34,7 @@ export const ViewAllNotes = () => {
       <AppText textStyle={styles.textStyle} text="Refresh to see updates" />
       <View style={styles.btnContainer}>
         <AppButton onPress={handleNavigation} btnStyle={styles.btnStyle}>
-          <AppText textStyle={styles.textStyle} text="Add notes" />
+          <AppText textStyle={styles.textStyle} text="Add note" />
         </AppButton>
       </View>
       <View style={styles.instructionsContainer}>

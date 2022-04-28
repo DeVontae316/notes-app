@@ -11,7 +11,6 @@ import { ErrorMessage } from "../../components/ErrorMessage";
 import { List } from "../../components/List";
 import { useDispatch } from "react-redux";
 import { postNotes } from "../../store/reducers/notesReducer/postNotesState";
-import { userNotes } from "../../store/sagas/selectors";
 import { useNavigation } from "@react-navigation/native";
 
 export const CreateNotes = () => {
@@ -19,7 +18,7 @@ export const CreateNotes = () => {
   const [userInput, setUserInput] = useState("");
   const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(true);
-  const [isShowAllNotes, setIsShowAllNotes] = useState(false);
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -33,6 +32,10 @@ export const CreateNotes = () => {
   const handlePostNotes = () => {
     console.log("post note");
     dispatch(postNotes(userNote));
+
+    setInterval(() => {
+      navigation.navigate("ViewAllNotes");
+    }, 1000);
   };
   const handleClick = () => {
     console.log("handle click hit");
@@ -101,7 +104,7 @@ export const CreateNotes = () => {
           btnStyle={[styles.appButton, styles.addNoteButton]}
           onPress={handlePostNotes}
         >
-          <AppText textStyle={styles.textStyle} text="Save notes" />
+          <AppText textStyle={styles.textStyle} text="Save note" />
         </AppButton>
       </View>
       <View style={styles.goalsContainer}>
