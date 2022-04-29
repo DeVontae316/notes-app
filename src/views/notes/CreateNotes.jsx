@@ -10,14 +10,16 @@ import { ErrorMessageText } from "../../components/ErrorMessageText";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { List } from "../../components/List";
 import { useDispatch, useSelector } from "react-redux";
-import { postNotes } from "../../store/reducers/notesReducer/postNotesState";
+import {
+  postNotes,
+  resetApiState,
+} from "../../store/reducers/notesReducer/postNotesState";
 
 export const CreateNotes = () => {
   const [userNote, setUserNote] = useState({});
   const [userInput, setUserInput] = useState("");
   const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(true);
-  const [isShowMessage, setIsShowMessage] = useState(false);
 
   const dispatch = useDispatch();
   const status = useSelector((state) => state.post.isSuccess);
@@ -29,22 +31,21 @@ export const CreateNotes = () => {
     value: userInput,
   };
 
-  const handlePostNotes = () => {
-    console.log("post note");
+  const handlePostNote = () => {
     dispatch(postNotes(userNote));
-    setIsShowMessage(true);
   };
 
-  const handleClick = () => {
-    console.log("handle click hit");
+  const handleCreateNote = () => {
     setErrorMessage();
     collectUserNote();
     resetUserInput();
     setIsModalVisible(false);
+    dispatch(resetApiState());
   };
 
-  const handleCreateNote = () => {
+  const handleAddNote = () => {
     setIsModalVisible(true);
+    dispatch(resetApiState());
   };
 
   const setErrorMessage = () => {
@@ -62,7 +63,6 @@ export const CreateNotes = () => {
   };
   const onChangeText = (e) => {
     setUserInput(e);
-    setIsShowMessage(false);
   };
 
   return (
@@ -77,7 +77,7 @@ export const CreateNotes = () => {
           />
 
           <View>
-            <AppButton btnStyle={styles.appButton} onPress={handleClick}>
+            <AppButton btnStyle={styles.appButton} onPress={handleCreateNote}>
               <AppText textStyle={styles.textStyle} text="Create Note" />
             </AppButton>
           </View>
@@ -95,13 +95,13 @@ export const CreateNotes = () => {
       <View styles={styles.addNoteBtnContainer}>
         <AppButton
           btnStyle={[styles.appButton, styles.addNoteButton]}
-          onPress={handleCreateNote}
+          onPress={handleAddNote}
         >
           <AppText textStyle={styles.textStyle} text="Add note" />
         </AppButton>
         <AppButton
           btnStyle={[styles.appButton, styles.addNoteButton]}
-          onPress={handlePostNotes}
+          onPress={handlePostNote}
         >
           <AppText textStyle={styles.textStyle} text="Save note" />
         </AppButton>
@@ -112,7 +112,7 @@ export const CreateNotes = () => {
           listItemStyle={styles.listItemStyle}
           data={[userNote]}
         />
-        {status && isShowMessage && (
+        {status && (
           <>
             <AppText textStyle={styles.successStyle} text="Success" />
             <AppText

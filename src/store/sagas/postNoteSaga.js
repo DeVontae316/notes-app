@@ -4,7 +4,8 @@ import * as selectors from "./selectors";
 
 function* postNotes() {
   const note = yield select(selectors.userNote);
-  const url = "https://application-mock-server.loca.lt/notes";
+
+  const url = "https://mock-server-play.loca.lt/notes";
   let data = {
     method: "POST",
 

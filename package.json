@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "json": "json-server --watch data.json --port 8000",
-    "mock": "lt --port 8000 --subdomain application-mock-server",
+    "mock": "lt --port 8000 --subdomain mock-server-play",
     "server": "npm run json & npm run mock"
   },
   "dependencies": {

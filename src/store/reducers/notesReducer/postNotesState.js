@@ -24,9 +24,15 @@ export const postNotesState = createSlice({
       state.isLoading = false;
       state.isError = true;
     },
+    resetApiState: (state) => {
+      state.isLoading = true;
+      state.isIdle = false;
+      state.isSuccess = false;
+      state.isError = false;
+    },
   },
 });
 
-export const { postNotes, postNotesSuccess, postNotesError } =
+export const { postNotes, postNotesSuccess, postNotesError, resetApiState } =
   postNotesState.actions;
 export default postNotesState.reducer;
