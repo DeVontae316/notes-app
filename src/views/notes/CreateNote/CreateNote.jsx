@@ -108,31 +108,14 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: 4,
   },
-  addNoteButton: {
-    backgroundColor: "purple",
-    width: "100%",
-    height: 55,
-  },
-  appContainer: {
-    flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 16,
-    borderBottomColor: "#cccccc",
-    borderStyle: "solid",
-    borderColor: "blue",
-  },
-  addNoteBtnContainer: {
-    marginLeft: 20,
-  },
+
   errorTextStyle: { color: "red" },
   noteContainer: {
     borderStyle: "solid",
     borderColor: "green",
     borderWidth: 1,
   },
-  iconStyle: {
-    alignItems: "center",
-  },
+
   inputContainer: {
     flexDirection: "column",
     justifyContent: "space-between",
@@ -144,19 +127,7 @@ const styles = StyleSheet.create({
     borderColor: "pink",
     borderWidth: 1,
   },
-  listItemStyle: {
-    display: "flex",
-    alignItems: "center",
-    borderStyle: "solid",
-    height: 40,
-    backgroundColor: "dodgerblue",
-    marginTop: 10,
-    borderRadius: 6,
-  },
-  listTextStyle: {
-    color: "white",
-    marginTop: 8,
-  },
+
   textFieldStyle: {
     textAlign: "center",
     width: "70%",
@@ -165,9 +136,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
     padding: 8,
   },
-  successStyle: {
-    color: "green",
-  },
+
   textStyle: {
     color: "white",
     fontSize: 20,
