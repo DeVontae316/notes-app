@@ -20,13 +20,17 @@ export const SaveNote = () => {
     setIsUserReadyToViewAllNotes(true);
   };
 
-  /*  useEffect(() => {
-    isUserReadyToViewAllNotes &&
-      setInterval(() => {
-        navigation.navigate("CreateNote");
+  useEffect(() => {
+    if (isUserReadyToViewAllNotes) {
+      const interval = setInterval(() => {
+        navigation.navigate("ViewAllNotes");
       }, 2000);
-    
-  }, [isUserReadyToViewAllNotes]); */
+
+      return () => clearInterval(interval);
+    }
+
+    setIsUserReadyToViewAllNotes(false);
+  }, [isUserReadyToViewAllNotes, setIsUserReadyToViewAllNotes]);
   return (
     console.log("isUserReadyval...", isUserReadyToViewAllNotes) || (
       <View styles={styles.addNoteBtnContainer}>
@@ -42,10 +46,16 @@ export const SaveNote = () => {
         </View>
 
         {apiStatus && (
-          <AppText
-            textStyle={styles.successText}
-            text="Note Successfully saved"
-          />
+          <>
+            <AppText
+              textStyle={styles.successText}
+              text="Note Successfully saved"
+            />
+            <AppText
+              textStyle={styles.successText}
+              text="Navigating to new screen in a moment..."
+            />
+          </>
         )}
       </View>
     )
