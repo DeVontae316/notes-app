@@ -18,7 +18,7 @@ I created the following scripts to create a "local api" for the RN project to us
 type npm run server to run a "local tunnel" on your machine
 
 Upon success you should see the following(or something similar):
-your url is: https://application-mock-server.loca.lt
+your url is: https://application-mock-server-play.loca.lt
 
 \{^\_^}/ hi!
 
