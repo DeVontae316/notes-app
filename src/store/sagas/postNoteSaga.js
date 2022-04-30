@@ -1,8 +1,8 @@
 import { call, put, takeEvery, select } from "redux-saga/effects";
-import { postNotesSuccess } from "../reducers/notesReducer/postNotesState";
+import { postNoteSuccess } from "../reducers/notesReducer/postNoteState";
 import * as selectors from "./selectors";
 
-function* postNotes() {
+function* postNote() {
   const note = yield select(selectors.userNote);
 
   const url = "https://mock-server-play.loca.lt/notes";
@@ -17,13 +17,13 @@ function* postNotes() {
   };
   const req = yield call(() => fetch(url, data));
   const res = yield req.json();
-  yield put(postNotesSuccess());
+  yield put(postNoteSuccess());
 
   console.log("res", res);
 }
 
 function* watchPostNotesSaga() {
-  yield takeEvery("postNotes/postNotes", postNotes);
+  yield takeEvery("postNote/postNote", postNote);
 }
 
 export default watchPostNotesSaga;

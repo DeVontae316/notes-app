@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getNotes } from "../../store/reducers/notesReducer/notesState";
+import { getNotes } from "../../../store/reducers/notesReducer/notesState";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { List } from "../../components/List";
-import { AppButton } from "../../components/common/button/AppButton";
-import AppText from "../../components/common/typography/AppText";
+import { List } from "../../../components/List";
+import { AppButton } from "../../../components/common/button/AppButton";
+import { AppText } from "../../../components/common/typography/AppText";
 
 export const ViewAllNotes = () => {
   const notes = useSelector((state) => state.notes.notes);
@@ -16,7 +16,7 @@ export const ViewAllNotes = () => {
 
   const handleNavigation = () => {
     console.log("navigation hit");
-    navigation.navigate("CreateNotes");
+    navigation.navigate({ name: "CreateNote" });
   };
   console.log("notes", notes);
 

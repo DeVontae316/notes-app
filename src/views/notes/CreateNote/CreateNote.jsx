@@ -1,50 +1,35 @@
 import "react-native-get-random-values";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, Modal } from "react-native";
+import { StyleSheet, View, SafeAreaView } from "react-native";
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
 
-import { TextField } from "../../components/common/form/TextField";
-import { AppButton } from "../../components/common/button/AppButton";
-import AppText from "../../components/common/typography/AppText";
-import { ErrorMessageText } from "../../components/ErrorMessageText";
-import { ErrorMessage } from "../../components/ErrorMessage";
-import { List } from "../../components/List";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  postNotes,
-  resetApiState,
-} from "../../store/reducers/notesReducer/postNotesState";
+import { TextField } from "../../../components/common/form/TextField";
+import { AppButton } from "../../../components/common/button/AppButton";
+import { AppText } from "../../../components/common/typography/AppText";
+import { ErrorMessageText } from "../../../components/ErrorMessageText";
+import { ErrorMessage } from "../../../components/ErrorMessage";
+import { useNavigation } from "@react-navigation/native";
+import { resetApiState } from "../../../store/reducers/notesReducer/postNoteState";
 
-export const CreateNotes = () => {
+export const CreateNote = () => {
   const [userNote, setUserNote] = useState({});
   const [userInput, setUserInput] = useState("");
   const [isShowErrorMessage, setIsShowErrorMessage] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(true);
-
+  const [isUserReadyToSaveNote, setIsUserReadyToSaveNote] = useState(false);
   const dispatch = useDispatch();
-  const status = useSelector((state) => state.post.isSuccess);
+  const navigation = useNavigation();
 
   const isUserInputAnEmptyString = userInput === "";
-
   const configOptions = {
     secureTextEntry: false,
     value: userInput,
   };
 
-  const handlePostNote = () => {
-    dispatch(postNotes(userNote));
-  };
-
   const handleCreateNote = () => {
     setErrorMessage();
     collectUserNote();
-    resetUserInput();
-    setIsModalVisible(false);
-    dispatch(resetApiState());
-  };
-
-  const handleAddNote = () => {
-    setIsModalVisible(true);
+    setIsUserReadyToSaveNote(true);
     dispatch(resetApiState());
   };
 
@@ -62,66 +47,46 @@ export const CreateNotes = () => {
     setUserInput("");
   };
   const onChangeText = (e) => {
+    setIsShowErrorMessage(false);
     setUserInput(e);
   };
 
+  const navigateToNextScreen = () => {
+    if (isUserInputAnEmptyString) return;
+    navigation.navigate("SaveNote", { userNote: userNote });
+  };
+
+  console.log("user input", userInput);
+
+  useEffect(() => {
+    console.log("will user save note?!!!", isUserReadyToSaveNote);
+    isUserReadyToSaveNote && navigateToNextScreen();
+    setIsUserReadyToSaveNote(false);
+    resetUserInput();
+  }, [isUserReadyToSaveNote]);
+
   return (
     <SafeAreaView style={styles.appContainer}>
-      <Modal visible={isModalVisible}>
-        <View style={styles.inputContainer}>
-          <TextField
-            onChangeText={onChangeText}
-            placeholder="Enter note"
-            textStyle={styles.textFieldStyle}
-            configOptions={configOptions}
-          />
-
-          <View>
-            <AppButton btnStyle={styles.appButton} onPress={handleCreateNote}>
-              <AppText textStyle={styles.textStyle} text="Create Note" />
-            </AppButton>
-          </View>
-        </View>
-        {isShowErrorMessage && (
-          <ErrorMessage>
-            <ErrorMessageText
-              errorMessage={"Error: Must enter a note before submitting"}
-              errorTextStyle={styles.errorTextStyle}
-            />
-          </ErrorMessage>
-        )}
-      </Modal>
-
-      <View styles={styles.addNoteBtnContainer}>
-        <AppButton
-          btnStyle={[styles.appButton, styles.addNoteButton]}
-          onPress={handleAddNote}
-        >
-          <AppText textStyle={styles.textStyle} text="Add note" />
-        </AppButton>
-        <AppButton
-          btnStyle={[styles.appButton, styles.addNoteButton]}
-          onPress={handlePostNote}
-        >
-          <AppText textStyle={styles.textStyle} text="Save note" />
-        </AppButton>
-      </View>
-      <View style={styles.goalsContainer}>
-        <List
-          listTextStyle={styles.listTextStyle}
-          listItemStyle={styles.listItemStyle}
-          data={[userNote]}
+      <View style={styles.inputContainer}>
+        <TextField
+          onChangeText={onChangeText}
+          placeholder="Enter note"
+          textStyle={styles.textFieldStyle}
+          configOptions={configOptions}
         />
-        {status && (
-          <>
-            <AppText textStyle={styles.successStyle} text="Success" />
-            <AppText
-              textStyle={styles.successStyle}
-              text="Click back button to see updated notes"
-            />
-          </>
-        )}
+
+        <AppButton btnStyle={styles.appButton} onPress={handleCreateNote}>
+          <AppText textStyle={styles.textStyle} text="Create Note" />
+        </AppButton>
       </View>
+      {isShowErrorMessage && (
+        <ErrorMessage>
+          <ErrorMessageText
+            errorMessage={"Error: Must enter a note before submitting"}
+            errorTextStyle={styles.errorTextStyle}
+          />
+        </ErrorMessage>
+      )}
     </SafeAreaView>
   );
 };

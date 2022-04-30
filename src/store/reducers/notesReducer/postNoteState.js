@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const postNotesState = createSlice({
-  name: "postNotes",
+export const postNoteState = createSlice({
+  name: "postNote",
   initialState: {
     userNote: {},
     isIdle: true,
@@ -10,17 +10,17 @@ export const postNotesState = createSlice({
     isSuccess: false,
   },
   reducers: {
-    postNotes: (state, action) => {
+    postNote: (state, action) => {
       state.isLoading = true;
       state.isIdle = false;
       state.userNote = action.payload;
       state.isSuccess = false;
     },
-    postNotesSuccess: (state) => {
+    postNoteSuccess: (state) => {
       state.isLoading = false;
       state.isSuccess = true;
     },
-    postNotesError: (state) => {
+    postNoteError: (state) => {
       state.isLoading = false;
       state.isError = true;
     },
@@ -33,6 +33,6 @@ export const postNotesState = createSlice({
   },
 });
 
-export const { postNotes, postNotesSuccess, postNotesError, resetApiState } =
-  postNotesState.actions;
-export default postNotesState.reducer;
+export const { postNote, postNoteSuccess, postNoteError, resetApiState } =
+  postNoteState.actions;
+export default postNoteState.reducer;

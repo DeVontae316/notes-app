@@ -8,6 +8,7 @@ export const TextField = (props) => {
       onChangeText={onChangeText}
       placeholder={placeholder}
       style={textStyle}
+      {...configOptions}
     />
   );
 };
