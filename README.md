@@ -12,13 +12,13 @@ expo start
 
 I created the following scripts to create a "local api" for the RN project to use:
 "json": "json-server --watch data.json --port 8000",
-"mock": "lt --port 8000 --subdomain application-mock-server",
+"mock": "lt --port 8000 --subdomain mock-server-play",
 "server": "npm run json & npm run mock"
 
 type npm run server to run a "local tunnel" on your machine
 
 Upon success you should see the following(or something similar):
-your url is: https://application-mock-server.loca.lt
+your url is: https://mock-server-play.loca.lt
 
 \{^\_^}/ hi!
 
