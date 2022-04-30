@@ -25,7 +25,7 @@ your url is: https://mock-server-play.loca.lt
 Loading data.json
 Done
 
-*You'll need to replace the url string in the saga files to match the link created by the custom scripts*
+_You'll need to replace the url string in the saga files to match the link created by the custom scripts_
 Currently its:
-const url = "https://application-mock-server.loca.lt/notes";
+const url = "https://mock-server-play.loca.lt/notes";
 But it could change...
